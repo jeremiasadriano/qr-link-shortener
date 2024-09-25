@@ -44,8 +44,9 @@ public class UrlServiceImpl implements UrlService {
     @Override
     public BufferedImage generateQRCodeImage(String shortUrl) throws Exception {
         Url url = this.urlRepository.findByShorterUrl(shortUrl);
+        if (Objects.isNull(url)) return null;
         QRCodeWriter barcodeWriter = new QRCodeWriter();
-        BitMatrix bitMatrix = barcodeWriter.encode(url.getBaseUrl(), BarcodeFormat.QR_CODE, 200, 200);
+        BitMatrix bitMatrix = barcodeWriter.encode(url.getBaseUrl(), BarcodeFormat.QR_CODE, 250, 250);
         return MatrixToImageWriter.toBufferedImage(bitMatrix);
     }
 
