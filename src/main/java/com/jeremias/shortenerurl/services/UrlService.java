@@ -1,9 +1,11 @@
 package com.jeremias.shortenerurl.services;
 
+import com.jeremias.shortenerurl.models.Url;
+
 import java.awt.image.BufferedImage;
 
 public interface UrlService {
-    String shortUrl(String baseUrl);
+    Url shortUrl(String baseUrl);
 
     String getBaseUrl(String shortUrl);
 

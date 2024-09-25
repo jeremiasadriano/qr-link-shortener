@@ -8,6 +8,7 @@ import com.jeremias.shortenerurl.models.Url;
 import com.jeremias.shortenerurl.repositories.UrlRepository;
 import com.jeremias.shortenerurl.services.UrlService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
@@ -18,21 +19,23 @@ import java.util.Random;
 @Service
 @RequiredArgsConstructor
 public class UrlServiceImpl implements UrlService {
+    @Value("${server.url}")
+    private String serverUrl;
     private final UrlRepository urlRepository;
 
     @Override
-    public String shortUrl(String baseUrl) {
-        if (baseUrl.isEmpty()) return "URL is empty";
+    public Url shortUrl(String baseUrl) {
+        if (baseUrl.isEmpty()) return null; //User fault, right?
         Url url = Url.builder()
                 .baseUrl(baseUrl)
-                .shorterUrl(generateShortUrl())
+                .shorterUrl(serverUrl.concat(generateShortUrl()))
                 .build();
-        return this.urlRepository.save(url).getShorterUrl();
+        return this.urlRepository.save(url);
     }
 
     @Override
     public String getBaseUrl(String shortUrl) {
-        Url url = this.urlRepository.findByShorterUrl(shortUrl);
+        Url url = this.urlRepository.findByShorterUrl(serverUrl.concat(shortUrl));
         if (Objects.isNull(url)) return "URL not found!";
         if (LocalDateTime.now().isAfter(url.getExpirationTime())) {
             this.urlRepository.delete(url);

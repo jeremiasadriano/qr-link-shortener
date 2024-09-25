@@ -1,0 +1,12 @@
+server:
+  url: ${APP_SERVER_URL}
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${APP_BD_URL}
+    username: ${APP_BD_USER}
+    password: ${APP_BD_PASS}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
