@@ -32,9 +32,8 @@ public class UrlController {
 
     @GetMapping("/{shortUrl}")
     public void getBaseUrl(@PathVariable String shortUrl, HttpServletResponse response) throws IOException {
-        String baseUrl = this.urlService.getBaseUrl(shortUrl);
         response.setStatus(200);
-        response.sendRedirect(baseUrl);
+        response.sendRedirect(this.urlService.getBaseUrl(shortUrl));
     }
 
     @GetMapping("/qr/{shortUrl}")
