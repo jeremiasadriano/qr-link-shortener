@@ -1,6 +1,6 @@
 # Qr link shortener
 
-URL shortening service that allows users to generate short URLs and QR codes from long URLs.
+A URL shortening service that allows users to generate short URLs and QR codes from long URLs.
 
 ## Features
 
