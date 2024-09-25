@@ -17,7 +17,7 @@ public class UrlController {
 
     @PostMapping("/url")
     public ResponseEntity<String> shortUrl(@RequestBody UrlRequest urlRequest) {
-        return new ResponseEntity<>(this.urlService.shortUrl(urlRequest.baseUrl()), HttpStatus.CREATED);
+        return new ResponseEntity<>(this.urlService.shortUrl(urlRequest.url()), HttpStatus.CREATED);
     }
 
     @GetMapping("/{shortUrl}")
