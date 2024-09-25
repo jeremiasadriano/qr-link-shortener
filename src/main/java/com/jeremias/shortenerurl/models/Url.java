@@ -16,8 +16,11 @@ public class Url {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "original_url", nullable = false)
     private String baseUrl;
+    @Column(name = "short_url", unique = true, nullable = false)
     private String shorterUrl;
+    @Column(unique = true, nullable = false)
     private String qrCode;
     private LocalDateTime expirationTime;
 

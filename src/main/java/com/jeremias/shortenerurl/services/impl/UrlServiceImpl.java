@@ -8,14 +8,18 @@ import com.jeremias.shortenerurl.models.Url;
 import com.jeremias.shortenerurl.repositories.UrlRepository;
 import com.jeremias.shortenerurl.services.UrlService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UrlServiceImpl implements UrlService {
@@ -66,5 +70,14 @@ public class UrlServiceImpl implements UrlService {
             }
         }
         return builder.toString().toUpperCase();
+    }
+
+    @Scheduled(fixedRate = 600000) // It´ll remove all expired links after 10 min
+    public void cleanupExpiredUrls() {
+        log.info("Cleaning up expired URLs...");
+        List<Url> expiredUrls = urlRepository.findAllByExpirationTimeBefore(LocalDateTime.now());
+        log.info(String.valueOf(expiredUrls.size()));
+        urlRepository.deleteAll(expiredUrls);
+        log.info("Expired URLs cleaned up!");
     }
 }
