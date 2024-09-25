@@ -18,6 +18,7 @@ public class Url {
     private Long id;
     private String baseUrl;
     private String shorterUrl;
+    private String qrCode;
     private LocalDateTime expirationTime;
 
     @PrePersist

@@ -24,6 +24,7 @@ public class UrlController {
         UrlResponse response = UrlResponse.builder()
                 .baseUrl(url.getBaseUrl())
                 .shortUrl(url.getShorterUrl())
+                .qrUrl(url.getQrCode())
                 .expirationTime(url.getExpirationTime())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.CREATED);

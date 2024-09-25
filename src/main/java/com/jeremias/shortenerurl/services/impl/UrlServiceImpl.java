@@ -26,9 +26,11 @@ public class UrlServiceImpl implements UrlService {
     @Override
     public Url shortUrl(String baseUrl) {
         if (baseUrl.isEmpty()) return null; //User fault, right?
+        String genId = generateShortUrl();
         Url url = Url.builder()
                 .baseUrl(baseUrl)
-                .shorterUrl(serverUrl.concat(generateShortUrl()))
+                .shorterUrl(serverUrl.concat(genId))
+                .qrCode(serverUrl.concat("qr").concat("/").concat(genId))
                 .build();
         return this.urlRepository.save(url);
     }
@@ -46,7 +48,7 @@ public class UrlServiceImpl implements UrlService {
 
     @Override
     public BufferedImage generateQRCodeImage(String shortUrl) throws Exception {
-        Url url = this.urlRepository.findByShorterUrl(shortUrl);
+        Url url = this.urlRepository.findByShorterUrl(serverUrl.concat(shortUrl));
         if (Objects.isNull(url)) return null;
         QRCodeWriter barcodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = barcodeWriter.encode(url.getBaseUrl(), BarcodeFormat.QR_CODE, 250, 250);
