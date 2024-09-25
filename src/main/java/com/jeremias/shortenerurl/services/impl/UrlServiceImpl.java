@@ -30,6 +30,7 @@ public class UrlServiceImpl implements UrlService {
         if (url.getBaseUrl().isEmpty()) throw new IllegalArgumentException("URL not found!");
         if (LocalDateTime.now().isAfter(url.getExpirationTime())) {
             this.urlRepository.delete(url);
+            throw new IllegalArgumentException("URL expired!");
         }
         return url.getBaseUrl();
     }
