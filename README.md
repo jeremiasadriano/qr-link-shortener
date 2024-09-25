@@ -27,3 +27,7 @@ A URL shortening service that allows users to generate short URLs and QR codes f
     ```shell
     mvn spring-boot:run
     ```
+   
+## Contributions
+
+Contributions are welcome! Feel free to open an issue or submit a pull request.
