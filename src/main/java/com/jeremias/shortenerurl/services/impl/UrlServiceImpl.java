@@ -15,7 +15,7 @@ public class UrlServiceImpl implements UrlService {
     private final UrlRepository urlRepository;
 
     @Override
-    public String shortURl(String baseUrl) {
+    public String shortUrl(String baseUrl) {
         if (baseUrl.isEmpty()) throw new NullPointerException("URL is empty");
         Url url = Url.builder()
                 .baseUrl(baseUrl)

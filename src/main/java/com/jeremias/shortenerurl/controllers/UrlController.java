@@ -12,7 +12,7 @@ public class UrlController {
 
     @PostMapping("/url")
     public String shortUrl(@RequestBody UrlRequest urlRequest) {
-        return this.urlService.shortURl(urlRequest.baseUrl());
+        return this.urlService.shortUrl(urlRequest.baseUrl());
     }
 
     @GetMapping("/{shortUrl}")
