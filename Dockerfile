@@ -19,6 +19,6 @@ WORKDIR /app
 
 EXPOSE 8080
 
-COPY --from=base /app/target/*.jar application.jar
+COPY --from=base /app/target/*.jar /app/application.jar
 
 ENTRYPOINT ["java","-jar", "application.jar"]

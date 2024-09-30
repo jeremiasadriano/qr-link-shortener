@@ -4,6 +4,9 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.jeremias.shortenerurl.exceptions.handlers.EntityBadRequestException;
+import com.jeremias.shortenerurl.exceptions.handlers.EntityForbiddenException;
+import com.jeremias.shortenerurl.exceptions.handlers.EntityNotFoundException;
 import com.jeremias.shortenerurl.models.Url;
 import com.jeremias.shortenerurl.repositories.UrlRepository;
 import com.jeremias.shortenerurl.services.UrlService;
@@ -29,7 +32,9 @@ public class UrlServiceImpl implements UrlService {
 
     @Override
     public Url shortUrl(String baseUrl) {
-        if (baseUrl.isEmpty()) return null; //User fault, right?
+        if (Objects.isNull(baseUrl) || baseUrl.isEmpty())
+            throw new EntityBadRequestException("The url cannot be null!");
+
         String genId = generateShortUrl();
         Url url = Url.builder()
                 .baseUrl(baseUrl)
@@ -42,10 +47,10 @@ public class UrlServiceImpl implements UrlService {
     @Override
     public String getBaseUrl(String shortUrl) {
         Url url = this.urlRepository.findByShorterUrl(serverUrl.concat(shortUrl));
-        if (Objects.isNull(url)) return "URL not found!";
+        if (Objects.isNull(url)) throw new EntityNotFoundException("Url not found!");
         if (LocalDateTime.now().isAfter(url.getExpirationTime())) {
             this.urlRepository.delete(url);
-            return "URL expired!";
+            throw new EntityForbiddenException("Url has expired!");
         }
         return url.getBaseUrl();
     }
