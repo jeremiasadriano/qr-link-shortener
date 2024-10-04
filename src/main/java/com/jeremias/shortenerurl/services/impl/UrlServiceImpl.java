@@ -69,7 +69,7 @@ public class UrlServiceImpl implements UrlService {
         Random random = new Random();
         for (int i = 0; i < 6; i++) {
             if (random.nextBoolean()) {
-                builder.append(random.nextInt(10));
+                builder.append(random.nextInt(10));s
             } else {
                 builder.append((char) (random.nextInt(26) + 'a'));
             }
