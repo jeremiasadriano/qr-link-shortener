@@ -24,7 +24,6 @@ public class UrlController {
         UrlResponse response = UrlResponse.builder()
                 .baseUrl(url.getBaseUrl())
                 .shortUrl(url.getShorterUrl())
-                .qrUrl(url.getQrCode())
                 .expirationTime(url.getExpirationTime())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -32,7 +31,7 @@ public class UrlController {
 
     @GetMapping("/{shortUrl}")
     public void getBaseUrl(@PathVariable String shortUrl, HttpServletResponse response) throws IOException {
-        response.setStatus(200);
+        response.setStatus(302);
         response.sendRedirect(this.urlService.getBaseUrl(shortUrl));
     }
 

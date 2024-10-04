@@ -20,8 +20,6 @@ public class Url {
     private String baseUrl;
     @Column(name = "short_url", unique = true, nullable = false)
     private String shorterUrl;
-    @Column(unique = true, nullable = false)
-    private String qrCode;
     private LocalDateTime expirationTime;
 
     @PrePersist

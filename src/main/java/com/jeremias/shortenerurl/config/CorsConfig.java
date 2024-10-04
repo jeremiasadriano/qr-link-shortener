@@ -1,6 +1,5 @@
 package com.jeremias.shortenerurl.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -14,10 +13,8 @@ import java.util.List;
 
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
-    @Value("${server.url}")
-    private String serverUrl;
     private final String CORS_MAPPING = "/**";
-    private final String[] CORS_ORIGEN = {serverUrl};
+    private final String[] CORS_ORIGEN = {"http://localhost:5173/"};
     private final String[] CORS_METHOD = {"GET", "POST"};
     private final String[] CORS_HEADERS = {"*"};
 

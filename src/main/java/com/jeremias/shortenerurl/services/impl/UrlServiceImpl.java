@@ -12,7 +12,6 @@ import com.jeremias.shortenerurl.repositories.UrlRepository;
 import com.jeremias.shortenerurl.services.UrlService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +25,6 @@ import java.util.Random;
 @Service
 @RequiredArgsConstructor
 public class UrlServiceImpl implements UrlService {
-    @Value("${server.url}")
-    private String serverUrl;
     private final UrlRepository urlRepository;
 
     @Override
@@ -38,15 +35,14 @@ public class UrlServiceImpl implements UrlService {
         String genId = generateShortUrl();
         Url url = Url.builder()
                 .baseUrl(baseUrl)
-                .shorterUrl(serverUrl.concat(genId))
-                .qrCode(serverUrl.concat("qr").concat("/").concat(genId))
+                .shorterUrl(genId)
                 .build();
         return this.urlRepository.save(url);
     }
 
     @Override
     public String getBaseUrl(String shortUrl) {
-        Url url = this.urlRepository.findByShorterUrl(serverUrl.concat(shortUrl));
+        Url url = this.urlRepository.findByShorterUrl(shortUrl);
         if (Objects.isNull(url)) throw new EntityNotFoundException("Url not found!");
         if (LocalDateTime.now().isAfter(url.getExpirationTime())) {
             this.urlRepository.delete(url);
@@ -57,7 +53,7 @@ public class UrlServiceImpl implements UrlService {
 
     @Override
     public BufferedImage generateQRCodeImage(String shortUrl) throws Exception {
-        Url url = this.urlRepository.findByShorterUrl(serverUrl.concat(shortUrl));
+        Url url = this.urlRepository.findByShorterUrl(shortUrl);
         if (Objects.isNull(url)) return null;
         QRCodeWriter barcodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = barcodeWriter.encode(url.getBaseUrl(), BarcodeFormat.QR_CODE, 250, 250);
@@ -69,7 +65,7 @@ public class UrlServiceImpl implements UrlService {
         Random random = new Random();
         for (int i = 0; i < 6; i++) {
             if (random.nextBoolean()) {
-                builder.append(random.nextInt(10));s
+                builder.append(random.nextInt(10));
             } else {
                 builder.append((char) (random.nextInt(26) + 'a'));
             }
