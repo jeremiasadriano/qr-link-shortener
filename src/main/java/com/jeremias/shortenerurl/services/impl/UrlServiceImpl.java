@@ -73,7 +73,7 @@ public class UrlServiceImpl implements UrlService {
         return builder.toString().toUpperCase();
     }
 
-    @Scheduled(fixedRate = 600000) // It´ll remove all expired links after 10 min
+    @Scheduled(fixedRate = 1800000) // It´ll remove all expired links after 30 min
     public void cleanupExpiredUrls() {
         log.info("Cleaning up expired URLs...");
         List<Url> expiredUrls = urlRepository.findAllByExpirationTimeBefore(LocalDateTime.now());
