@@ -24,6 +24,6 @@ public class Url {
 
     @PrePersist
     public void setCreateTime() {
-        this.expirationTime = LocalDateTime.now().plusMinutes(10L);
+        this.expirationTime = LocalDateTime.now().plusMinutes(30L);
     }
 }
